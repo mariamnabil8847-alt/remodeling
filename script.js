@@ -139,3 +139,27 @@
     });
   });
 })();
+
+/* ------------------------------------------------------------
+   Map Pins – touch/click toggle for mobile
+------------------------------------------------------------ */
+(function initMapPins() {
+  const pins = document.querySelectorAll('.map-pin');
+  if (!pins.length) return;
+
+  pins.forEach(function (pin) {
+    // Toggle active class on click/tap (for touch devices)
+    pin.addEventListener('click', function (e) {
+      const isActive = pin.classList.contains('active');
+      // Close all others
+      pins.forEach(function (p) { p.classList.remove('active'); });
+      if (!isActive) pin.classList.add('active');
+      e.stopPropagation();
+    });
+  });
+
+  // Close all pins when clicking outside the map
+  document.addEventListener('click', function () {
+    pins.forEach(function (p) { p.classList.remove('active'); });
+  });
+})();

@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <!-- Leaflet CSS removed -->
 </head>
 <body>
 
@@ -427,58 +428,390 @@
     <div class="section-header">
       <p class="section-eyebrow">Where We Work</p>
       <h2>Areas We Serve</h2>
+      <p class="section-sub">We serve homeowners across the Dallas–Fort Worth metro area.</p>
     </div>
 
-    <div class="areas-map-row">
-      <div class="areas-list-wrap">
+    <div class="areas-layout">
+
+      <!-- PRO MAP -->
+      <div class="areas-map-wrap reveal">
+        <div class="map-frame-wrap">
+
+          <svg class="pro-map" viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" aria-label="Tech Effort DFW service area map" role="img">
+            <defs>
+              <!-- Light map background -->
+              <linearGradient id="mapBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#E8E0D5"/>
+                <stop offset="100%" stop-color="#DDD5C8"/>
+              </linearGradient>
+              <!-- City block fills -->
+              <linearGradient id="blockA" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#F2EBE0"/>
+                <stop offset="100%" stop-color="#E8DFD2"/>
+              </linearGradient>
+              <!-- Road yellow -->
+              <linearGradient id="roadYellow" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#E8B84B"/>
+                <stop offset="100%" stop-color="#D4A030"/>
+              </linearGradient>
+              <!-- Water -->
+              <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#A8C8E8"/>
+                <stop offset="100%" stop-color="#88B0D8"/>
+              </linearGradient>
+              <!-- Park green -->
+              <linearGradient id="parkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#B8D89A"/>
+                <stop offset="100%" stop-color="#9EC880"/>
+              </linearGradient>
+              <!-- Pin shadow -->
+              <filter id="pinSh" x="-80%" y="-50%" width="260%" height="280%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.35)"/>
+              </filter>
+              <!-- Block shadow -->
+              <filter id="bSh">
+                <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.12)"/>
+              </filter>
+              <!-- Road shadow -->
+              <filter id="rSh">
+                <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,0.18)"/>
+              </filter>
+            </defs>
+
+            <!-- ══════════════════════════════
+                 BACKGROUND
+            ══════════════════════════════ -->
+            <rect width="640" height="380" fill="url(#mapBg)"/>
+
+            <!-- ══════════════════════════════
+                 WATER — right side (lake / river)
+            ══════════════════════════════ -->
+            <path d="M 540 0 C 560 40 575 100 580 160 C 585 220 578 280 570 340 C 566 360 560 370 554 380 L 640 380 L 640 0 Z"
+              fill="url(#waterGrad)"/>
+            <!-- Water shimmer lines -->
+            <g stroke="#9ABCD4" stroke-width="1" opacity="0.5">
+              <path d="M 558 30  C 565 50  568 70  562 90" fill="none"/>
+              <path d="M 568 120 C 574 140 576 160 570 178" fill="none"/>
+              <path d="M 572 210 C 577 230 576 250 569 268" fill="none"/>
+            </g>
+            <!-- Water-land edge -->
+            <path d="M 540 0 C 560 40 575 100 580 160 C 585 220 578 280 570 340 C 566 360 560 370 554 380"
+              fill="none" stroke="#78A8C8" stroke-width="1.5"/>
+
+            <!-- ══════════════════════════════
+                 MAIN ROADS — diagonal perspective
+                 (Google Maps-style converging roads)
+            ══════════════════════════════ -->
+
+            <!-- Primary yellow highway (diagonal, top-right to bottom-center) -->
+            <path d="M 400 0 C 420 40 440 90 450 140 C 462 200 468 260 464 320 C 462 345 458 365 452 380"
+              fill="none" stroke="#C8A030" stroke-width="22" stroke-linecap="round" filter="url(#rSh)"/>
+            <path d="M 400 0 C 420 40 440 90 450 140 C 462 200 468 260 464 320 C 462 345 458 365 452 380"
+              fill="none" stroke="#E8C048" stroke-width="18" stroke-linecap="round"/>
+            <path d="M 400 0 C 420 40 440 90 450 140 C 462 200 468 260 464 320 C 462 345 458 365 452 380"
+              fill="none" stroke="#F0CC60" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+
+            <!-- Secondary yellow road (parallel, slightly left) -->
+            <path d="M 340 0 C 358 50 374 110 382 170 C 390 230 390 290 385 340 C 382 358 378 370 374 380"
+              fill="none" stroke="#C8A030" stroke-width="14" stroke-linecap="round" filter="url(#rSh)"/>
+            <path d="M 340 0 C 358 50 374 110 382 170 C 390 230 390 290 385 340 C 382 358 378 370 374 380"
+              fill="none" stroke="#E8C048" stroke-width="10" stroke-linecap="round"/>
+
+            <!-- Grey major road (horizontal, upper) -->
+            <path d="M 0 120 C 80 118 180 116 280 115 C 360 114 420 116 520 120"
+              fill="none" stroke="#B8AFA0" stroke-width="16" stroke-linecap="round" filter="url(#rSh)"/>
+            <path d="M 0 120 C 80 118 180 116 280 115 C 360 114 420 116 520 120"
+              fill="none" stroke="#D8CFC0" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 0 120 C 80 118 180 116 280 115 C 360 114 420 116 520 120"
+              fill="none" stroke="#E8E0D0" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+
+            <!-- Grey major road (horizontal, lower) -->
+            <path d="M 0 250 C 80 248 180 246 300 245 C 380 244 440 246 540 250"
+              fill="none" stroke="#B8AFA0" stroke-width="14" stroke-linecap="round" filter="url(#rSh)"/>
+            <path d="M 0 250 C 80 248 180 246 300 245 C 380 244 440 246 540 250"
+              fill="none" stroke="#D8CFC0" stroke-width="10" stroke-linecap="round"/>
+
+            <!-- ══════════════════════════════
+                 CITY BLOCKS — perspective grid
+            ══════════════════════════════ -->
+
+            <!-- Left sector — dense small blocks -->
+            <g fill="url(#blockA)" filter="url(#bSh)" stroke="#C8BFB0" stroke-width="0.5">
+              <!-- Row 1 -->
+              <rect x="4"   y="4"   width="54" height="38" rx="2"/>
+              <rect x="64"  y="4"   width="56" height="38" rx="2"/>
+              <rect x="126" y="4"   width="52" height="38" rx="2"/>
+              <rect x="184" y="4"   width="54" height="38" rx="2"/>
+              <rect x="244" y="4"   width="50" height="38" rx="2"/>
+              <!-- Row 2 -->
+              <rect x="4"   y="48"  width="54" height="42" rx="2"/>
+              <rect x="64"  y="48"  width="56" height="42" rx="2"/>
+              <rect x="126" y="48"  width="52" height="42" rx="2"/>
+              <rect x="184" y="48"  width="54" height="42" rx="2"/>
+              <rect x="244" y="48"  width="50" height="42" rx="2"/>
+              <!-- Row 3 -->
+              <rect x="4"   y="96"  width="54" height="20" rx="2"/>
+              <rect x="64"  y="96"  width="56" height="20" rx="2"/>
+              <rect x="126" y="96"  width="52" height="20" rx="2"/>
+              <rect x="184" y="96"  width="54" height="20" rx="2"/>
+              <!-- Row 4 — below main road -->
+              <rect x="4"   y="142" width="54" height="44" rx="2"/>
+              <rect x="64"  y="142" width="56" height="44" rx="2"/>
+              <rect x="126" y="142" width="52" height="44" rx="2"/>
+              <rect x="184" y="142" width="54" height="44" rx="2"/>
+              <rect x="244" y="142" width="50" height="44" rx="2"/>
+              <!-- Row 5 -->
+              <rect x="4"   y="192" width="54" height="42" rx="2"/>
+              <rect x="64"  y="192" width="56" height="42" rx="2"/>
+              <rect x="126" y="192" width="52" height="42" rx="2"/>
+              <rect x="184" y="192" width="54" height="42" rx="2"/>
+              <rect x="244" y="192" width="50" height="42" rx="2"/>
+              <!-- Row 6 — below lower road -->
+              <rect x="4"   y="262" width="54" height="44" rx="2"/>
+              <rect x="64"  y="262" width="56" height="44" rx="2"/>
+              <rect x="126" y="262" width="52" height="44" rx="2"/>
+              <rect x="184" y="262" width="54" height="44" rx="2"/>
+              <rect x="244" y="262" width="50" height="44" rx="2"/>
+              <!-- Row 7 -->
+              <rect x="4"   y="312" width="54" height="64" rx="2"/>
+              <rect x="64"  y="312" width="56" height="64" rx="2"/>
+              <rect x="126" y="312" width="52" height="64" rx="2"/>
+              <rect x="184" y="312" width="54" height="64" rx="2"/>
+              <rect x="244" y="312" width="50" height="64" rx="2"/>
+            </g>
+
+            <!-- Right-of-roads sector — wider blocks -->
+            <g fill="url(#blockA)" filter="url(#bSh)" stroke="#C8BFB0" stroke-width="0.5">
+              <rect x="298" y="4"   width="36" height="38" rx="2"/>
+              <rect x="298" y="48"  width="36" height="62" rx="2"/>
+              <rect x="298" y="142" width="36" height="44" rx="2"/>
+              <rect x="298" y="192" width="36" height="48" rx="2"/>
+              <rect x="298" y="262" width="36" height="44" rx="2"/>
+              <rect x="298" y="312" width="36" height="64" rx="2"/>
+            </g>
+
+            <!-- ══════════════════════════════
+                 PARKS / GREEN SPACES
+            ══════════════════════════════ -->
+            <!-- Central park (left of main road) -->
+            <rect x="64" y="142" width="115" height="44" rx="3" fill="url(#parkGrad)" stroke="#8AB870" stroke-width="0.8"/>
+            <!-- Tree dots in park -->
+            <g fill="#6A9850" opacity="0.7">
+              <circle cx="88"  cy="158" r="7"/>
+              <circle cx="108" cy="168" r="6"/>
+              <circle cx="130" cy="156" r="7"/>
+              <circle cx="152" cy="165" r="6"/>
+              <circle cx="170" cy="155" r="7"/>
+            </g>
+            <!-- Smaller park strip -->
+            <rect x="4" y="262" width="54" height="44" rx="2" fill="url(#parkGrad)" stroke="#8AB870" stroke-width="0.8"/>
+            <g fill="#6A9850" opacity="0.7">
+              <circle cx="18"  cy="278" r="5"/>
+              <circle cx="36"  cy="285" r="5"/>
+              <circle cx="50"  cy="275" r="4"/>
+            </g>
+
+            <!-- ══════════════════════════════
+                 STREET GRID LINES (fine overlay)
+            ══════════════════════════════ -->
+            <g stroke="#C0B5A5" stroke-width="0.6" opacity="0.55" fill="none">
+              <!-- Verticals -->
+              <line x1="60"  y1="0"   x2="60"  y2="380"/>
+              <line x1="120" y1="0"   x2="120" y2="380"/>
+              <line x1="180" y1="0"   x2="180" y2="380"/>
+              <line x1="240" y1="0"   x2="240" y2="380"/>
+              <line x1="296" y1="0"   x2="296" y2="380"/>
+              <!-- Horizontals -->
+              <line x1="0"   y1="44"  x2="540" y2="44"/>
+              <line x1="0"   y1="92"  x2="540" y2="92"/>
+              <line x1="0"   y1="138" x2="540" y2="138"/>
+              <line x1="0"   y1="188" x2="540" y2="188"/>
+              <line x1="0"   y1="256" x2="540" y2="256"/>
+              <line x1="0"   y1="308" x2="540" y2="308"/>
+            </g>
+
+            <!-- ══════════════════════════════
+                 LOCATION PINS — colorful, with house/tool icon
+                 Teardrop: circle top + triangle point
+            ══════════════════════════════ -->
+
+            <!-- Garland — PRIMARY: orange (brand color), home icon -->
+            <g class="map-pin-city" style="--pd:0s" filter="url(#pinSh)">
+              <!-- Pin body -->
+              <path d="M 200 238 C 184 238 171 225 171 209 C 171 193 184 180 200 180 C 216 180 229 193 229 209 C 229 225 216 238 200 238 L 200 258 Z" fill="#B8460B"/>
+              <path d="M 200 238 C 184 238 171 225 171 209 C 171 193 184 180 200 180 C 216 180 229 193 229 209 C 229 225 216 238 200 238 L 200 258 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <!-- House icon -->
+              <g fill="#fff" transform="translate(189, 198)">
+                <polygon points="11,0 22,9 22,22 14,22 14,14 8,14 8,22 0,22 0,9" opacity="0.95"/>
+              </g>
+            </g>
+
+            <!-- Frisco — gold pin, wrench icon -->
+            <g class="map-pin-city" style="--pd:0.12s" filter="url(#pinSh)">
+              <path d="M 76 112 C 63 112 52 101 52 87 C 52 73 63 62 76 62 C 89 62 100 73 100 87 C 100 101 89 112 76 112 L 76 128 Z" fill="#D4952A"/>
+              <path d="M 76 112 C 63 112 52 101 52 87 C 52 73 63 62 76 62 C 89 62 100 73 100 87 C 100 101 89 112 76 112 L 76 128 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <g fill="#fff" transform="translate(66,77)">
+                <!-- Wrench icon simplified -->
+                <rect x="3" y="0" width="14" height="3" rx="1.5"/>
+                <rect x="3" y="6" width="14" height="3" rx="1.5"/>
+                <rect x="3" y="12" width="14" height="3" rx="1.5"/>
+              </g>
+            </g>
+
+            <!-- Plano — deep red pin, star icon -->
+            <g class="map-pin-city" style="--pd:0.22s" filter="url(#pinSh)">
+              <path d="M 268 98 C 255 98 244 87 244 73 C 244 59 255 48 268 48 C 281 48 292 59 292 73 C 292 87 281 98 268 98 L 268 114 Z" fill="#C0392B"/>
+              <path d="M 268 98 C 255 98 244 87 244 73 C 244 59 255 48 268 48 C 281 48 292 59 292 73 C 292 87 281 98 268 98 L 268 114 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <polygon points="268,57 271,66 280,66 273,71 276,80 268,75 260,80 263,71 256,66 265,66" fill="#fff" opacity="0.95"/>
+            </g>
+
+            <!-- McKinney — green pin, tree icon -->
+            <g class="map-pin-city" style="--pd:0.32s" filter="url(#pinSh)">
+              <path d="M 148 80 C 135 80 124 69 124 55 C 124 41 135 30 148 30 C 161 30 172 41 172 55 C 172 69 161 80 148 80 L 148 96 Z" fill="#27AE60"/>
+              <path d="M 148 80 C 135 80 124 69 124 55 C 124 41 135 30 148 30 C 161 30 172 41 172 55 C 172 69 161 80 148 80 L 148 96 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <!-- Tree icon -->
+              <g fill="#fff" transform="translate(138,39)">
+                <polygon points="10,0 20,12 14,12 18,22 2,22 6,12 0,12" opacity="0.95"/>
+              </g>
+            </g>
+
+            <!-- Richardson — blue pin, info icon -->
+            <g class="map-pin-city" style="--pd:0.42s" filter="url(#pinSh)">
+              <path d="M 112 170 C 99 170 88 159 88 145 C 88 131 99 120 112 120 C 125 120 136 131 136 145 C 136 159 125 170 112 170 L 112 186 Z" fill="#2980B9"/>
+              <path d="M 112 170 C 99 170 88 159 88 145 C 88 131 99 120 112 120 C 125 120 136 131 136 145 C 136 159 125 170 112 170 L 112 186 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <!-- Letter R -->
+              <text x="112" y="152" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="800" fill="#fff">R</text>
+            </g>
+
+            <!-- Allen — purple pin, fork icon -->
+            <g class="map-pin-city" style="--pd:0.52s" filter="url(#pinSh)">
+              <path d="M 332 178 C 319 178 308 167 308 153 C 308 139 319 128 332 128 C 345 128 356 139 356 153 C 356 167 345 178 332 178 L 332 194 Z" fill="#8E44AD"/>
+              <path d="M 332 178 C 319 178 308 167 308 153 C 308 139 319 128 332 128 C 345 128 356 139 356 153 C 356 167 345 178 332 178 L 332 194 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <text x="332" y="160" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="800" fill="#fff">A</text>
+            </g>
+
+            <!-- Rowlett — teal pin -->
+            <g class="map-pin-city" style="--pd:0.62s" filter="url(#pinSh)">
+              <path d="M 362 90 C 349 90 338 79 338 65 C 338 51 349 40 362 40 C 375 40 386 51 386 65 C 386 79 375 90 362 90 L 362 106 Z" fill="#16A085"/>
+              <path d="M 362 90 C 349 90 338 79 338 65 C 338 51 349 40 362 40 C 375 40 386 51 386 65 C 386 79 375 90 362 90 L 362 106 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <text x="362" y="72" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="800" fill="#fff">W</text>
+            </g>
+
+            <!-- Mesquite — dark navy pin -->
+            <g class="map-pin-city" style="--pd:0.72s" filter="url(#pinSh)">
+              <path d="M 162 320 C 149 320 138 309 138 295 C 138 281 149 270 162 270 C 175 270 186 281 186 295 C 186 309 175 320 162 320 L 162 336 Z" fill="#2C3E50"/>
+              <path d="M 162 320 C 149 320 138 309 138 295 C 138 281 149 270 162 270 C 175 270 186 281 186 295 C 186 309 175 320 162 320 L 162 336 Z" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <text x="162" y="302" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="800" fill="#fff">M</text>
+            </g>
+
+            <!-- ══════════════════════════════
+                 CITY NAME LABELS
+            ══════════════════════════════ -->
+            <g font-family="Inter,Arial,sans-serif" font-weight="700" font-size="11.5">
+
+              <!-- Garland (primary — orange label) -->
+              <g class="map-label-city" style="--pd:0.06s">
+                <rect x="167" y="261" width="66" height="19" rx="9.5" fill="#B8460B"/>
+                <text x="200" y="274" text-anchor="middle" fill="#fff">Garland</text>
+              </g>
+
+              <!-- Frisco -->
+              <g class="map-label-city" style="--pd:0.18s">
+                <rect x="51"  y="131" width="50" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="76"  y="144" text-anchor="middle" fill="#fff">Frisco</text>
+              </g>
+
+              <!-- Plano -->
+              <g class="map-label-city" style="--pd:0.28s">
+                <rect x="242" y="117" width="52" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="268" y="130" text-anchor="middle" fill="#fff">Plano</text>
+              </g>
+
+              <!-- McKinney -->
+              <g class="map-label-city" style="--pd:0.38s">
+                <rect x="116" y="98"  width="64" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="148" y="111" text-anchor="middle" fill="#fff">McKinney</text>
+              </g>
+
+              <!-- Richardson -->
+              <g class="map-label-city" style="--pd:0.48s">
+                <rect x="74"  y="188" width="76" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="112" y="201" text-anchor="middle" fill="#fff">Richardson</text>
+              </g>
+
+              <!-- Allen -->
+              <g class="map-label-city" style="--pd:0.58s">
+                <rect x="311" y="196" width="42" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="332" y="209" text-anchor="middle" fill="#fff">Allen</text>
+              </g>
+
+              <!-- Rowlett -->
+              <g class="map-label-city" style="--pd:0.68s">
+                <rect x="335" y="108" width="54" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="362" y="121" text-anchor="middle" fill="#fff">Rowlett</text>
+              </g>
+
+              <!-- Mesquite -->
+              <g class="map-label-city" style="--pd:0.78s">
+                <rect x="130" y="338" width="64" height="19" rx="9.5" fill="rgba(30,20,10,0.75)"/>
+                <text x="162" y="351" text-anchor="middle" fill="#fff">Mesquite</text>
+              </g>
+
+            </g>
+
+            <!-- ══════════════════════════════
+                 BRAND STAMP
+            ══════════════════════════════ -->
+            <g opacity="0.7">
+              <rect x="460" y="350" width="172" height="22" rx="4" fill="rgba(184,70,11,0.88)"/>
+              <text x="546" y="365" text-anchor="middle"
+                font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="700"
+                letter-spacing="0.14em" fill="#fff">TECH EFFORT · DFW</text>
+            </g>
+
+          </svg>
+
+          </svg>
+
+        </div>
+      </div>
+
+      <!-- CITY CHIPS + PANEL -->
+      <div class="areas-right">
         <p class="areas-intro">
-          We provide home remodeling and renovation services throughout the local area
-          and surrounding DFW communities. Whether you're in Garland or a neighboring city,
-          we're ready to help with your project.
+          We provide professional home remodeling and renovation services across the Dallas–Fort Worth metro area. Whether you're in Garland or a nearby community, we're ready to help.
         </p>
 
         <div class="areas-grid">
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Garland, TX
-          </div>
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Richardson, TX
-          </div>
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Rowlett, TX
-          </div>
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Sachse, TX
-          </div>
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Wylie, TX
-          </div>
-          <div class="area-chip reveal">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Mesquite, TX
-          </div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Garland, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Richardson, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Rowlett, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Sachse, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Wylie, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Mesquite, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Frisco, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>McKinney, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Prosper, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Plano, TX</div>
+          <div class="area-chip reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Allen, TX</div>
         </div>
 
         <p class="areas-note">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Don't see your city? Call us — we may still serve your area.
         </p>
+
+        <div class="areas-panel reveal">
+          <h3>Ready to Get Started?</h3>
+          <p>Tell us about your project and we'll get back to you with a free estimate.</p>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdlIdB2ofKZ5Gh019dnSNGaifj-gSwbPGLIItxBPiSoVrFF5A/viewform"
+            target="_blank" rel="noopener noreferrer"
+            class="btn btn-primary"
+          >Get a Free Estimate</a>
+        </div>
       </div>
 
-      <div class="areas-panel reveal">
-        <h3>Ready to Get Started?</h3>
-        <p>Tell us about your project and we'll get back to you to discuss the details and provide a free estimate.</p>
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSdlIdB2ofKZ5Gh019dnSNGaifj-gSwbPGLIItxBPiSoVrFF5A/viewform"
-          target="_blank" rel="noopener noreferrer"
-          class="btn btn-primary"
-        >Get a Free Estimate</a>
-      </div>
     </div>
   </div>
 </section>
